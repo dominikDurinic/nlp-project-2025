@@ -1,6 +1,6 @@
 # NLP Projekt 2025
 
-<img src="/main.png" width="200px"/>
+<img src="public/main.png" width="500px"/>
 
 ## Naslov projekta
 **Primjena metoda obrade prirodnog jezika u analizi teme: Jugoslavija: nostalgija ili kritika**
