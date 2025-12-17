@@ -18,6 +18,7 @@ def get_comments(thread_id, forum="narodhr"):
     comments = []
     for post in data.get("response", []):
         comments.append({
+            "source" :"narod.hr",
             "id": post["id"],
             "author": post["author"]["name"],
             "message": post["message"],

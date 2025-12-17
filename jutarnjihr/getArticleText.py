@@ -1,0 +1,44 @@
+import requests
+from bs4 import BeautifulSoup
+
+headers = {"User-Agent": "Mozilla/5.0"}
+
+
+def get_article_text_jutarnji(article_url):
+    r = requests.get(article_url, headers=headers)
+    r.raise_for_status()
+    soup = BeautifulSoup(r.text, "html.parser")
+
+    # Detekcija premium / free
+    container = soup.select_one(".itemFullText")
+    if not container:
+        return None  # nema sadržaja
+
+    classes = container.get("class", [])
+    if "itemFullText--premium" in classes:
+        return None  # premium → skip
+    elif "itemFullText--freecontent" not in classes:
+        return None  # nepoznat tip, također skip
+
+    #  Naslov
+    title_tag = soup.find("h1")
+    title = title_tag.get_text(" ", strip=True) if title_tag else None
+
+    #  Datum
+    publish_date = None
+    time_tag = soup.find("time")
+    if time_tag:
+        if time_tag.has_attr("datetime"):
+            publish_date = time_tag["datetime"].split("T")[0]
+        else:
+            publish_date = time_tag.get_text(strip=True)
+
+    #  Tekst članka
+    blocks = []
+    for tag in container.find_all(["p", "h2", "h3"]):
+        text = tag.get_text(" ", strip=True)
+        if text:
+            blocks.append(text)
+
+    full_text = "\n".join(blocks)
+    return full_text, publish_date, title

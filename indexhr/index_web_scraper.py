@@ -43,7 +43,7 @@ def scrape_portal(query, max_results):
 
 
             articles.append({
-                "source": "indexhr",
+                "source": "index.hr",
                 "publishDate": date,
                 "title": title,
                 "url": link,

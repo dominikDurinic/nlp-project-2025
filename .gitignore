@@ -43,4 +43,5 @@ Thumbs.db
 *.csv
 *.tsv
 *.json
+*.jsonl
 *.sqlite

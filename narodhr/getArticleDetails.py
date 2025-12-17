@@ -6,6 +6,22 @@ from bs4 import BeautifulSoup
 
 headers = {"User-Agent": "Mozilla/5.0"}
 
+def sanitize_for_json(text: str) -> str:
+    if not text:
+        return text
+
+    # 1. makni opasne unicode separatore
+    text = text.replace("\u2028", " ").replace("\u2029", " ")
+
+    # 2. zamijeni ASCII navodnike
+    text = text.replace('"', '“')
+
+    # 3. escapeaj backslash
+    text = text.replace("\\", "\\\\")
+
+    return text
+
+
 def get_article_details(article_url):
     response = requests.get(article_url, headers=headers)
     if response.status_code != 200:
@@ -21,7 +37,8 @@ def get_article_details(article_url):
             text = tag.get_text(strip=True)
             if text:
                 blocks.append(text)
-    full_text = "\n".join(blocks)
+    full_text = sanitize_for_json("\n".join(blocks))
+
 
     # Datum objave
     time_tag = soup.find("time", class_="entry-date")

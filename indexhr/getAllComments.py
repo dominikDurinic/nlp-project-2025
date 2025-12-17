@@ -16,7 +16,7 @@ def get_all_comments(thread_id):
             break
         for item in batch:
             all_comments.append({
-                "source":"indexhr",
+                "source":"index.hr",
                 "commentThreadId": thread_id,
                 "author": item.get("posterFullName", "Anonimno"),
                 "text": item.get("content", ""),
