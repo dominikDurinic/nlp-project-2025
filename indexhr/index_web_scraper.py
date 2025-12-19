@@ -31,6 +31,7 @@ def scrape_portal(query, max_results):
                 continue
 
             link = urljoin(base_url, link_tag["href"])
+            print("Scraping:", link)
             title = link_tag.get_text(strip=True)
 
             # full text from detail page

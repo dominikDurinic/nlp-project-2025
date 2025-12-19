@@ -34,6 +34,7 @@ def scrape_portal_narod(query, max_pages=5):
                 continue
 
             link = urljoin(base_url, link_tag["href"])
+            print("Scraping:", link)
             title = link_tag.get_text(strip=True) if link_tag else None
             print(link)
             

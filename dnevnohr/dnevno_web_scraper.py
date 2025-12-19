@@ -28,6 +28,8 @@ def scrape_portal_dnevno(query: str, num_pages: int = 5):
             if "/tag/" in link.lower():
                 continue
 
+            print("Scraping:", link)
+
             try:
                 full_text, publish_date, title = get_article_text_dnevno(link)
                 articles.append({
