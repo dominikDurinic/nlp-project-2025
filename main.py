@@ -13,7 +13,7 @@ from reddit.reddit_web_scraper import scrape_portal_reddit
 from helper.saveToJsonL import save_to_jsonl
 from vecernjihr.getComments import get_vecernji_comments
 from vecernjihr.vecernji_web_scraper import scrape_portal_vecernji
-'''
+
 ## ------- INDEX.HR -------
 
 articles = []
@@ -62,7 +62,7 @@ articles = exclude_sport(articles)
 save_to_jsonl(articles, "data/articles/dnevnohr_articles.jsonl")
 
 
-'''
+
 ## ------- 24SATA.HR -------
 
 articles = scrape_portal_24sata("jugoslavija", 2)
@@ -80,7 +80,7 @@ for article in articles:
 
 save_to_jsonl(comments, "data/comments/24sata_comments.jsonl")
 
-'''
+
 
 ## ------- JUTARNJI.HR -------
 
@@ -124,4 +124,3 @@ for post in posts:
     comments.extend(get_reddit_comments(url, post_id))
 
 save_to_jsonl(comments, "data/posts/comments/reddit_comments.jsonl")
-'''
