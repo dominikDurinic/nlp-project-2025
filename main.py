@@ -22,7 +22,7 @@ articles = scrape_portal("jugoslavija", max_results=30)
 
 articles = exclude_sport(articles)
 
-save_to_jsonl(articles, "data/articles/indexhr_articles.jsonl")
+save_to_jsonl(articles, "data/original/articles/indexhr_articles.jsonl")
 
 comments = []
 for article in articles:
@@ -32,7 +32,7 @@ for article in articles:
     comments.extend(get_all_comments(thread_id))
 
 
-save_to_jsonl(comments,"data/comments/indexhr_comments.jsonl")
+save_to_jsonl(comments,"data/original/comments/indexhr_comments.jsonl")
 
 
 ## ------- NAROD.HR -------
@@ -40,7 +40,7 @@ save_to_jsonl(comments,"data/comments/indexhr_comments.jsonl")
 articles = []
 articles = scrape_portal_narod("jugoslavija", 1)
 
-save_to_jsonl(articles, "data/articles/narodhr_articles.jsonl")
+save_to_jsonl(articles, "data/original/articles/narodhr_articles.jsonl")
 
 comments = []
 for article in articles:
@@ -50,7 +50,7 @@ for article in articles:
     # get_all_comments sada prima URL umjesto thread_id
     comments.extend(get_comments(t_i))
 
-save_to_jsonl(comments, "data/comments/narodhr_comments.jsonl")
+save_to_jsonl(comments, "data/original/comments/narodhr_comments.jsonl")
 
 
 ## ------- DNEVNO.HR -------
@@ -60,7 +60,7 @@ articles = scrape_portal_dnevno("jugoslavija", 2)
 
 articles = exclude_sport(articles)
 
-save_to_jsonl(articles, "data/articles/dnevnohr_articles.jsonl")
+save_to_jsonl(articles, "data/original/articles/dnevnohr_articles.jsonl")
 
 
 
@@ -69,7 +69,7 @@ save_to_jsonl(articles, "data/articles/dnevnohr_articles.jsonl")
 articles = scrape_portal_24sata("jugoslavija", 2)
 articles = exclude_sport(articles)
 
-save_to_jsonl(articles, "data/articles/24sata_articles.jsonl")
+save_to_jsonl(articles, "data/original/articles/24sata_articles.jsonl")
 
 comments = []
 for article in articles:
@@ -79,7 +79,7 @@ for article in articles:
 
     comments.extend(get_comments_24sata(url))
 
-save_to_jsonl(comments, "data/comments/24sata_comments.jsonl")
+save_to_jsonl(comments, "data/original/comments/24sata_comments.jsonl")
 
 
 
@@ -88,7 +88,7 @@ save_to_jsonl(comments, "data/comments/24sata_comments.jsonl")
 articles = scrape_portal_jutarnji("jugoslavija", 2)
 articles = exclude_sport(articles)
 
-save_to_jsonl(articles, "data/articles/jutarnjihr_articles.jsonl")
+save_to_jsonl(articles, "data/original/articles/jutarnjihr_articles.jsonl")
 
 
 ## ------- VECERNJI.HR -------
@@ -96,7 +96,7 @@ save_to_jsonl(articles, "data/articles/jutarnjihr_articles.jsonl")
 articles = scrape_portal_vecernji("jugoslavija", 1)
 articles = exclude_sport(articles)
 
-save_to_jsonl(articles, "data/articles/vecernjihr_articles.jsonl")
+save_to_jsonl(articles, "data/original/articles/vecernjihr_articles.jsonl")
 
 comments = []
 for article in articles:
@@ -106,14 +106,14 @@ for article in articles:
 
     comments.extend(get_vecernji_comments(url))
 
-save_to_jsonl(comments, "data/comments/vecernjihr_comments.jsonl")
+save_to_jsonl(comments, "data/original/comments/vecernjihr_comments.jsonl")
 
 
 ## ------- REDDIT.COM -------
 
 posts = articles = scrape_portal_reddit("jugoslavija", max_pages=1)
 
-save_to_jsonl(posts, "data/posts/reddit_posts.jsonl")
+save_to_jsonl(posts, "data/original/posts/reddit_posts.jsonl")
 
 comments = []
 for post in posts:
@@ -124,19 +124,32 @@ for post in posts:
 
     comments.extend(get_reddit_comments(url, post_id))
 
-save_to_jsonl(comments, "data/posts/comments/reddit_comments.jsonl")
+save_to_jsonl(comments, "data/original/posts/comments/reddit_comments.jsonl")
 
 
 ## -------- Cleaning text ---------
 
 # cleaning articles
 clean_jsonl(
-    "data/articles/24sata_articles.jsonl",
+    "data/original/articles/24sata_articles.jsonl",
     "data/clean/articles/clean_24sata_articles.jsonl"
 )
 
 # cleaning comments
 clean_jsonl(
-    "data/comments/24sata_comments.jsonl",
+    "data/original/comments/24sata_comments.jsonl",
     "data/clean/comments/clean_24sata_comments.jsonl"
+)
+
+
+# cleaning posts
+clean_jsonl(
+    "data/original/posts/reddit_posts.jsonl",
+    "data/clean/posts/clean_reddit_posts.jsonl"
+)
+
+# cleaning posts comments
+clean_jsonl(
+    "data/original/posts/comments/reddit_comments.jsonl",
+    "data/clean/posts/comments/clean_reddit_comments.jsonl"
 )
