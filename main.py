@@ -1,5 +1,6 @@
 import pandas as pd
 from dnevnohr.dnevno_web_scraper import scrape_portal_dnevno
+from helper.cleaning import clean_jsonl
 from indexhr.getAllComments import get_all_comments
 from indexhr.index_web_scraper import scrape_portal
 from jutarnjihr.jutarnji_web_scraper import scrape_portal_jutarnji
@@ -124,3 +125,18 @@ for post in posts:
     comments.extend(get_reddit_comments(url, post_id))
 
 save_to_jsonl(comments, "data/posts/comments/reddit_comments.jsonl")
+
+
+## -------- Cleaning text ---------
+
+# cleaning articles
+clean_jsonl(
+    "data/articles/24sata_articles.jsonl",
+    "data/clean/articles/clean_24sata_articles.jsonl"
+)
+
+# cleaning comments
+clean_jsonl(
+    "data/comments/24sata_comments.jsonl",
+    "data/clean/comments/clean_24sata_comments.jsonl"
+)
