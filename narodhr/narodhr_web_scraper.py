@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from helper.normalizeDate import normalize_date
 from narodhr.getArticleDetails import get_article_details
 from urllib.parse import urljoin
 
@@ -44,12 +45,11 @@ def scrape_portal_narod(query, max_pages=5):
 
             articles.append({
                 "source": "narod.hr",
-                "publishDate": publish_date,
+                "publish_date": normalize_date(publish_date),
                 "title": title,
-                "url": link,
+                "article_url": link,
                 "t_i": t_i,
                 "text": full_text,
-                "commentThreadId": None  # Narod.hr doesn't expose this
             })
 
         page += 1

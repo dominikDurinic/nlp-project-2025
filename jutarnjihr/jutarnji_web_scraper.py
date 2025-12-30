@@ -1,3 +1,4 @@
+from helper.normalizeDate import normalize_date
 from jutarnjihr.getArticleText import get_article_text_jutarnji
 from jutarnjihr.getLinks import scrape_jutarnji_links
 
@@ -20,9 +21,9 @@ def scrape_portal_jutarnji(query: str, pages: int = 5):
 
         articles.append({
             "source": "jutarnji.hr",
-            "publishDate": publish_date,
+            "publish_date": normalize_date(publish_date),
             "title": title,
-            "url": url,
+            "article_url": url,
             "text": full_text
         })
 

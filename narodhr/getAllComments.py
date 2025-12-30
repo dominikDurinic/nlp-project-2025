@@ -1,10 +1,10 @@
 import requests
-
+from helper.normalizeDate import normalize_date
 from narodhr.getThreadDetails import get_thread_details
 
 DISQUS_API_KEY = "A6n72ZScd1B7CmTHoRG5EDApWW4RJBRhaxY7ZqGpFNaZkSZiSi5X9BzLD9qGx5jC"
 
-def get_comments(thread_id, forum="narodhr"):
+def get_comments(thread_id, forum="narodhr", article_url=None):
     # 1. dohvati pravi internal thread id
     thread_id_final = get_thread_details(thread_id, forum)
 
@@ -21,8 +21,9 @@ def get_comments(thread_id, forum="narodhr"):
             "source" :"narod.hr",
             "id": post["id"],
             "author": post["author"]["name"],
-            "message": post["message"],
-            "createdAt": post["createdAt"]
+            "text": post["message"],
+            "publish_date": normalize_date(post["createdAt"]),
+            "article_url": article_url,
         })
     return comments
 

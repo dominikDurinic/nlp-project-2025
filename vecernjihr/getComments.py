@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+from helper.normalizeDate import normalize_date
 from vecernjihr.getLinks import get_vecernji_comment_pages
 
 headers = {"User-Agent": "Mozilla/5.0"}
@@ -32,7 +33,7 @@ def scrape_vecernji_comments_page(article_url, page=1):
             "source":"vecernji.hr",
             "article_url": article_url,
             "comment_id": comment_id,
-            "created_date": created_date,
+            "publish_date": normalize_date(created_date),
             "text": text,
         })
 

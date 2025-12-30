@@ -1,7 +1,9 @@
 import requests
 
+from helper.normalizeDate import normalize_date
 
-def get_all_comments(thread_id):
+
+def get_all_comments(thread_id, article_url):
     headers = {"User-Agent": "Mozilla/5.0"}
     all_comments = []
     skip = 0
@@ -18,9 +20,10 @@ def get_all_comments(thread_id):
             all_comments.append({
                 "source":"index.hr",
                 "commentThreadId": thread_id,
+                "article_url": article_url,
                 "author": item.get("posterFullName", "Anonimno"),
                 "text": item.get("content", ""),
-                "date": item.get("createdDateUtc", "")
+                "publish_date": normalize_date(item.get("createdDateUtc", ""))
             })
         skip += take  # idi na sljedeću “stranicu”
 

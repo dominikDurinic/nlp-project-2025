@@ -6,6 +6,8 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 from bs4 import BeautifulSoup
 
+from helper.normalizeDate import normalize_date
+
 def scroll_until_done(driver):
     last_count = 0
     stagnant_rounds = 0
@@ -75,7 +77,7 @@ def get_comments_24sata(article_url: str):
             "source": "24sata.hr",
             "article_url": article_url,
             "comment_id": comment_id,
-            "created_date": created_date,
+            "publish_date": normalize_date(created_date),
             "text": text,
         })
 

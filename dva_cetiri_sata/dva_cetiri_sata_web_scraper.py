@@ -1,5 +1,6 @@
 from dva_cetiri_sata.getArticleText import get_article_24sata
 from dva_cetiri_sata.getLinks import scrape_24sata_scroll
+from helper.normalizeDate import normalize_date
 
 
 def scrape_portal_24sata(query: str, scroll_times: int = 10):
@@ -19,9 +20,9 @@ def scrape_portal_24sata(query: str, scroll_times: int = 10):
 
         articles.append({
             "source": "24sata.hr",
-            "url": url,
+            "article_url": url,
             "title": title,
-            "publish_date": publish_date,
+            "publish_date": normalize_date(publish_date),
             "text": full_text
         })
 

@@ -1,3 +1,4 @@
+from helper.normalizeDate import normalize_date
 from vecernjihr.getArticles import get_article_vecernji
 from vecernjihr.getLinks import scrape_vecernji_links
 
@@ -18,9 +19,9 @@ def scrape_portal_vecernji(query: str, max_pages: int = 5):
 
         articles.append({
             "source": "vecernji.hr",
-            "publishDate": publish_date,
+            "publish_date": normalize_date(publish_date),
             "title": title,
-            "url": url,
+            "article_url": url,
             "text": full_text
         })
 

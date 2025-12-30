@@ -1,6 +1,8 @@
 from datetime import datetime, timezone
 import requests
 
+from helper.normalizeDate import normalize_date
+
 HEADERS = { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" }
 
 def get_reddit_comments(url: str, post_id: str):
@@ -22,10 +24,12 @@ def get_reddit_comments(url: str, post_id: str):
         date = datetime.fromtimestamp(ts, tz=timezone.utc).strftime("%Y-%m-%d")
         
         comments.append({
+            "source": "reddit.com",
             "postId": post_id,
             "text": d.get("body"),
             "score": d.get("score"),
-            "date": date
+            "publish_date": normalize_date(date),
+            "article_url": url,
         })
 
     return comments

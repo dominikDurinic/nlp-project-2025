@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from dnevnohr.getArticleText import  get_article_text_dnevno
+from helper.normalizeDate import normalize_date
 
 headers = {"User-Agent": "Mozilla/5.0"}
 
@@ -34,9 +35,9 @@ def scrape_portal_dnevno(query: str, num_pages: int = 5):
                 full_text, publish_date, title = get_article_text_dnevno(link)
                 articles.append({
                     "source": "dnevno.hr",
-                    "publishDate": publish_date,
+                    "publish_date": normalize_date(publish_date),
                     "title": title,
-                    "url": link,
+                    "article_url": link,
                     "text": full_text
                 })
 

@@ -1,4 +1,5 @@
 import pandas as pd
+from bert_classifier.labelJSONL import label_jsonl
 from dnevnohr.dnevno_web_scraper import scrape_portal_dnevno
 from helper.cleaning import clean_jsonl
 from indexhr.getAllComments import get_all_comments
@@ -18,7 +19,7 @@ from vecernjihr.vecernji_web_scraper import scrape_portal_vecernji
 ## ------- INDEX.HR -------
 
 articles = []
-articles = scrape_portal("jugoslavija", max_results=30)
+articles = scrape_portal("jugoslavija", max_results=10)
 
 articles = exclude_sport(articles)
 
@@ -27,9 +28,10 @@ save_to_jsonl(articles, "data/original/articles/indexhr_articles.jsonl")
 comments = []
 for article in articles:
     thread_id = article.get("commentThreadId")
+    article_url = article.get("article_url")
     if not thread_id:
         continue
-    comments.extend(get_all_comments(thread_id))
+    comments.extend(get_all_comments(thread_id, article_url))
 
 
 save_to_jsonl(comments,"data/original/comments/indexhr_comments.jsonl")
@@ -45,10 +47,11 @@ save_to_jsonl(articles, "data/original/articles/narodhr_articles.jsonl")
 comments = []
 for article in articles:
     t_i = article.get("t_i")
+    article_url = article.get("article_url")
     if not t_i:
         continue
     # get_all_comments sada prima URL umjesto thread_id
-    comments.extend(get_comments(t_i))
+    comments.extend(get_comments(t_i,article_url=article_url))
 
 save_to_jsonl(comments, "data/original/comments/narodhr_comments.jsonl")
 
@@ -152,4 +155,19 @@ clean_jsonl(
 clean_jsonl(
     "data/original/posts/comments/reddit_comments.jsonl",
     "data/clean/posts/comments/clean_reddit_comments.jsonl"
+)
+
+
+
+# LABELING POSTOVA
+label_jsonl(
+    "data/clean/articles/clean_vecernjihr_articles.jsonl",
+    "data/result/labeled_vecernjihr_articles.jsonl"
+)
+
+
+# LABELING KOMENTARA
+label_jsonl(
+    "data/clean/comments/clean_vecernjihr_comments.jsonl",
+    "data/result/labeled_vecernjihr_comments.jsonl"
 )

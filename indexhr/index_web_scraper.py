@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from helper.normalizeDate import normalize_date
 from indexhr.getArticleText import get_article_text 
 from indexhr.getCommentsThreadID import get_comment_thread_id
 from urllib.parse import urljoin
@@ -45,9 +46,9 @@ def scrape_portal(query, max_results):
 
             articles.append({
                 "source": "index.hr",
-                "publishDate": date,
+                "publish_date": normalize_date(date),
                 "title": title,
-                "url": link,
+                "article_url": link,
                 "text": full_text,
                 "commentThreadId": thread_id
             })

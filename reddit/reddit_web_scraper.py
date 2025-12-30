@@ -1,4 +1,5 @@
 import time
+from helper.normalizeDate import normalize_date
 from reddit.getLinks import  scrape_reddit_links_subreddit
 from reddit.getPosts import get_reddit_post
 
@@ -33,10 +34,10 @@ def scrape_portal_reddit(query: str, max_pages: int = 5):
 
         posts.append({
             "source": "reddit.com",
-            "publishDate": publish_date,
+            "publish_date": normalize_date(publish_date),
             "id": id,
             "title": title,
-            "url": url,
+            "article_url": url,
             "text": full_text
         })
 
