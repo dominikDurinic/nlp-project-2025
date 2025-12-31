@@ -1,64 +1,49 @@
-from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
 import time
 from bs4 import BeautifulSoup
 
 from helper.normalizeDate import normalize_date
+
 
 def scroll_until_done(driver):
     last_count = 0
     stagnant_rounds = 0
 
     while True:
-        # scroll u malim koracima
         driver.execute_script("window.scrollBy(0, 600);")
         time.sleep(1.2)
 
-        # broj komentara trenutno u DOM-u
         comments_now = len(driver.find_elements(By.CSS_SELECTOR, "div.thread_comment"))
 
-        # ako se broj nije promijenio → možda je kraj
         if comments_now == last_count:
             stagnant_rounds += 1
         else:
             stagnant_rounds = 0
 
-        # ako se 5 puta zaredom ništa nije učitalo → gotovo
         if stagnant_rounds >= 5:
             break
 
         last_count = comments_now
 
-
-def get_comments_24sata(article_url: str):
+def get_comments_24sata(article_url: str, driver):
     comments_url = article_url.rstrip("/") + "/komentari"
 
-    options = Options()
-    options.add_argument("--headless=new")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--no-sandbox")
-
-    driver = webdriver.Chrome(options=options)
     driver.get(comments_url)
 
-    # pokušaj čekati komentare, ali ne pucaj ako ih nema
     try:
         WebDriverWait(driver, 5).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, "div.thread_comment"))
         )
     except:
-        driver.quit()
-        return []  # nema komentara
+        return []   # NE GASI DRIVER!
 
-    # učitaj sve komentare
     scroll_until_done(driver)
 
-    # parsiraj finalni HTML
     soup = BeautifulSoup(driver.page_source, "html.parser")
-    driver.quit()
 
     comments = []
 
@@ -69,7 +54,6 @@ def get_comments_24sata(article_url: str):
         content_tag = c.select_one(".thread_comment__content")
         text = content_tag.get_text(" ", strip=True) if content_tag else None
 
-        # preskoči prazne komentare (placeholder)
         if not text:
             continue
 

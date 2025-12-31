@@ -24,6 +24,7 @@ def get_article_text_jutarnji(article_url):
         title_tag = soup.find("h1")
         title = title_tag.get_text(" ", strip=True) if title_tag else None
 
+        '''
         # Datum
         publish_date = None
         time_tag = soup.find("time")
@@ -33,6 +34,15 @@ def get_article_text_jutarnji(article_url):
             else:
                 publish_date = time_tag.get_text(strip=True)
 
+        '''
+         # Datum
+        publish_date = None
+        if publish_date is None: 
+            date_span = soup.find("span", class_="item__author__date") 
+            if date_span: 
+                publish_date = date_span.get_text(strip=True)
+
+                
         # Tekst članka
         blocks = []
         for tag in container.find_all(["p", "h2", "h3"]):

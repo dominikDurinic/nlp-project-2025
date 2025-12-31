@@ -1,7 +1,6 @@
 import pandas as pd
-from bert_classifier.labelJSONL import label_jsonl
 from dnevnohr.dnevno_web_scraper import scrape_portal_dnevno
-from helper.cleaning import clean_jsonl
+from helper.createDriver import create_driver
 from indexhr.getAllComments import get_all_comments
 from indexhr.index_web_scraper import scrape_portal
 from jutarnjihr.jutarnji_web_scraper import scrape_portal_jutarnji
@@ -15,11 +14,11 @@ from reddit.reddit_web_scraper import scrape_portal_reddit
 from helper.saveToJsonL import save_to_jsonl
 from vecernjihr.getComments import get_vecernji_comments
 from vecernjihr.vecernji_web_scraper import scrape_portal_vecernji
-
+'''
 ## ------- INDEX.HR -------
 
 articles = []
-articles = scrape_portal("jugoslavija", max_results=10)
+articles = scrape_portal("jugoslavija", max_results=100)
 
 articles = exclude_sport(articles)
 
@@ -32,6 +31,7 @@ for article in articles:
     if not thread_id:
         continue
     comments.extend(get_all_comments(thread_id, article_url))
+    print(f"Prikupljeno komentara za članak {article_url}: {len(comments)}")
 
 
 save_to_jsonl(comments,"data/original/comments/indexhr_comments.jsonl")
@@ -59,33 +59,37 @@ save_to_jsonl(comments, "data/original/comments/narodhr_comments.jsonl")
 ## ------- DNEVNO.HR -------
 
 articles = []
-articles = scrape_portal_dnevno("jugoslavija", 2)
+articles = scrape_portal_dnevno("jugoslavija", 14)
 
 articles = exclude_sport(articles)
 
 save_to_jsonl(articles, "data/original/articles/dnevnohr_articles.jsonl")
 
 
-
+'''
 ## ------- 24SATA.HR -------
 
-articles = scrape_portal_24sata("jugoslavija", 2)
+articles = scrape_portal_24sata("jugoslavija", scroll_times=1)
 articles = exclude_sport(articles)
 
 save_to_jsonl(articles, "data/original/articles/24sata_articles.jsonl")
 
+driver = create_driver()
+
 comments = []
 for article in articles:
-    url = article.get("url")
+    url = article.get("article_url")
     if not url:
         continue
 
-    comments.extend(get_comments_24sata(url))
+    comments.extend(get_comments_24sata(url, driver))
+    print(f"Prikupljeno komentara za članak {url}: {len(comments)}")
 
+driver.quit()
 save_to_jsonl(comments, "data/original/comments/24sata_comments.jsonl")
 
 
-
+'''
 ## ------- JUTARNJI.HR -------
 
 articles = scrape_portal_jutarnji("jugoslavija", 2)
@@ -103,7 +107,7 @@ save_to_jsonl(articles, "data/original/articles/vecernjihr_articles.jsonl")
 
 comments = []
 for article in articles:
-    url = article.get("url")
+    url = article.get("article_url")
     if not url:
         continue
 
@@ -120,7 +124,7 @@ save_to_jsonl(posts, "data/original/posts/reddit_posts.jsonl")
 
 comments = []
 for post in posts:
-    url = post.get("url")
+    url = post.get("article_url")
     post_id = post.get("id")
     if not url:
         continue
@@ -129,45 +133,4 @@ for post in posts:
 
 save_to_jsonl(comments, "data/original/posts/comments/reddit_comments.jsonl")
 
-
-## -------- Cleaning text ---------
-
-# cleaning articles
-clean_jsonl(
-    "data/original/articles/24sata_articles.jsonl",
-    "data/clean/articles/clean_24sata_articles.jsonl"
-)
-
-# cleaning comments
-clean_jsonl(
-    "data/original/comments/24sata_comments.jsonl",
-    "data/clean/comments/clean_24sata_comments.jsonl"
-)
-
-
-# cleaning posts
-clean_jsonl(
-    "data/original/posts/reddit_posts.jsonl",
-    "data/clean/posts/clean_reddit_posts.jsonl"
-)
-
-# cleaning posts comments
-clean_jsonl(
-    "data/original/posts/comments/reddit_comments.jsonl",
-    "data/clean/posts/comments/clean_reddit_comments.jsonl"
-)
-
-
-
-# LABELING POSTOVA
-label_jsonl(
-    "data/clean/articles/clean_vecernjihr_articles.jsonl",
-    "data/result/labeled_vecernjihr_articles.jsonl"
-)
-
-
-# LABELING KOMENTARA
-label_jsonl(
-    "data/clean/comments/clean_vecernjihr_comments.jsonl",
-    "data/result/labeled_vecernjihr_comments.jsonl"
-)
+'''
