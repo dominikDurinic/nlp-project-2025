@@ -12,7 +12,15 @@ def scrape_vecernji_comments_page(article_url, page=1):
         comments_url += f"?page={page}"
 
     r = requests.get(comments_url, headers=headers)
-    r.raise_for_status()
+
+    if r.status_code == 404:
+        print(f"No comments page for: {comments_url}")
+        return []  # nema komentara
+
+    if r.status_code != 200:
+        print(f"Unexpected status {r.status_code} for: {comments_url}")
+        return []
+
     soup = BeautifulSoup(r.text, "html.parser")
 
     comments = []

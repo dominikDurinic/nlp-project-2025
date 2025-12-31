@@ -35,12 +35,12 @@ for article in articles:
 
 
 save_to_jsonl(comments,"data/original/comments/indexhr_comments.jsonl")
-
+'''
 
 ## ------- NAROD.HR -------
 
 articles = []
-articles = scrape_portal_narod("jugoslavija", 1)
+articles = scrape_portal_narod("jugoslavija", 10)
 
 save_to_jsonl(articles, "data/original/articles/narodhr_articles.jsonl")
 
@@ -55,7 +55,7 @@ for article in articles:
 
 save_to_jsonl(comments, "data/original/comments/narodhr_comments.jsonl")
 
-
+'''
 ## ------- DNEVNO.HR -------
 
 articles = []
@@ -66,7 +66,7 @@ articles = exclude_sport(articles)
 save_to_jsonl(articles, "data/original/articles/dnevnohr_articles.jsonl")
 
 
-'''
+
 ## ------- 24SATA.HR -------
 
 articles = scrape_portal_24sata("jugoslavija", scroll_times=1)
@@ -89,10 +89,12 @@ driver.quit()
 save_to_jsonl(comments, "data/original/comments/24sata_comments.jsonl")
 
 
-'''
+
 ## ------- JUTARNJI.HR -------
 
-articles = scrape_portal_jutarnji("jugoslavija", 2)
+articles = scrape_portal_jutarnji("jugoslavija", 10)
+articles.extend(scrape_portal_jutarnji("tito", 10))
+articles.extend(scrape_portal_jutarnji("jugonostalgija", 10))
 articles = exclude_sport(articles)
 
 save_to_jsonl(articles, "data/original/articles/jutarnjihr_articles.jsonl")
@@ -100,7 +102,7 @@ save_to_jsonl(articles, "data/original/articles/jutarnjihr_articles.jsonl")
 
 ## ------- VECERNJI.HR -------
 
-articles = scrape_portal_vecernji("jugoslavija", 1)
+articles = scrape_portal_vecernji("jugoslavija", 10)
 articles = exclude_sport(articles)
 
 save_to_jsonl(articles, "data/original/articles/vecernjihr_articles.jsonl")
@@ -118,7 +120,7 @@ save_to_jsonl(comments, "data/original/comments/vecernjihr_comments.jsonl")
 
 ## ------- REDDIT.COM -------
 
-posts = articles = scrape_portal_reddit("jugoslavija", max_pages=1)
+posts = scrape_portal_reddit("jugoslavija", max_pages=1)
 
 save_to_jsonl(posts, "data/original/posts/reddit_posts.jsonl")
 
@@ -132,5 +134,4 @@ for post in posts:
     comments.extend(get_reddit_comments(url, post_id))
 
 save_to_jsonl(comments, "data/original/posts/comments/reddit_comments.jsonl")
-
 '''

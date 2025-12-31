@@ -41,7 +41,16 @@ def scrape_vecernji_links(query: str, max_pages: int = 5):
 def get_vecernji_comment_pages(article_url):
     url = article_url.rstrip("/") + "/komentari"
     r = requests.get(url, headers=headers)
-    r.raise_for_status()
+
+    # Ako stranica komentara ne postoji → nema komentara
+    if r.status_code == 404:
+        return 0
+
+    # Ako je neki drugi error → preskoči
+    if r.status_code != 200:
+        print(f"Unexpected status {r.status_code} for {url}")
+        return 0
+
     soup = BeautifulSoup(r.text, "html.parser")
 
     pages = 1
@@ -55,3 +64,4 @@ def get_vecernji_comment_pages(article_url):
                 pass
 
     return pages
+

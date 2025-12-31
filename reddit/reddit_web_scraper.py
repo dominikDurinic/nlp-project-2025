@@ -5,7 +5,6 @@ from reddit.getPosts import get_reddit_post
 
 
 def scrape_portal_reddit(query: str, max_pages: int = 5):
-    #links = scrape_reddit_links(query, max_pages=max_pages)
     
     subreddits = [
         "Croatia",
