@@ -5,7 +5,7 @@ from tqdm import tqdm
 
 # hrvatske stop riječi (možeš proširiti)
 STOPWORDS = {
-    "i","u","na","za","da","je","sam","si","su","smo","ste","nije","ne","niti",
+    "i","u","na","za","da","je","sam","si","su","smo","ste",
     "a","ali","pa","te","to","tu","ti","mi","vi","oni","one","ono","od","do",
     "kao","koji","koja","koje","koju","što","šta","jer","bez","s","sa","ovo",
     "tamo","ovdje","biti","imam","ima","imaju","bilo","bila","bili","bile"
@@ -31,7 +31,7 @@ def clean_text(text: str) -> str:
     tokens = text.split()
 
     # ukloni stop riječi i prekratke riječi
-    tokens = [t for t in tokens if t not in STOPWORDS and len(t) > 2]
+    tokens = [t for t in tokens if t not in STOPWORDS and len(t) > 1]
 
     return " ".join(tokens)
 

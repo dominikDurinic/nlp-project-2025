@@ -8,13 +8,13 @@ def load_jsonl(path):
         for line in f:
             obj = json.loads(line)
             data.append({
-                "text": obj["clean_text"],
-                "label": obj["label"],  # 0=nostalgija, 1=kritika, 2=neutralno
-
                 # META PODACI (ne koriste se u treningu, ali ih nosimo sa sobom)
                 "source": obj.get("source"),
                 "publish_date": obj.get("publish_date"),
                 "article_url": obj.get("article_url"),
+                # TEKST I OZNAKA
+                "clean_text": obj["clean_text"],
+                "label": obj["label"],  # 0=nostalgija, 1=kritika, 2=neutralno
             })
     return Dataset.from_list(data)
 

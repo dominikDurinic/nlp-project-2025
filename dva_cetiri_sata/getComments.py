@@ -39,7 +39,7 @@ def get_comments_24sata(article_url: str, driver):
             EC.presence_of_element_located((By.CSS_SELECTOR, "div.thread_comment"))
         )
     except:
-        return []   # NE GASI DRIVER!
+        return []
 
     scroll_until_done(driver)
 

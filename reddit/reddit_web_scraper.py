@@ -4,19 +4,12 @@ from reddit.getLinks import  scrape_reddit_links_subreddit
 from reddit.getPosts import get_reddit_post
 
 
-def scrape_portal_reddit(query: str, max_pages: int = 5):
-    
-    subreddits = [
-        "Croatia",
-        "AskCroatia",
-        "hreddit"
-    ]
+def scrape_portal_reddit(query: str, max_pages: int = 5, sub="Croatia"):
 
     all_links = []
 
-    for sub in subreddits:
-        links = scrape_reddit_links_subreddit(sub, query=query, max_pages=max_pages)
-        all_links.extend(links)
+    links = scrape_reddit_links_subreddit(sub, query=query, max_pages=max_pages)
+    all_links.extend(links)
 
     print("Ukupno linkova:", len(all_links))
 

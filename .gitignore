@@ -45,3 +45,8 @@ Thumbs.db
 *.json
 *.jsonl
 *.sqlite
+
+# Machine learning models
+data/model/bert_nostalgia_classifier/
+bert_nostalgia_model/
+bertic_nostalgia_model

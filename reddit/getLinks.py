@@ -35,6 +35,9 @@ def scrape_reddit_links_subreddit(subreddit: str, query: str, max_pages: int = 3
         if not after:
             break
 
-        time.sleep(0.5)
+        if page >= 1: # page index 1 = druga stranica, prije treće 
+            time.sleep(20) 
+        else: 
+            time.sleep(5)
 
     return all_links

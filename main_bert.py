@@ -1,4 +1,8 @@
-from bert_classifier.labelJSONL import label_jsonl
+from bert_classifier.bertProduction import label_jsonl
+
+
+## * POKRETAANJE LABELINGA ZA NOVE PODATKE * ##
+
 
 # LABELING POSTOVA
 label_jsonl(
