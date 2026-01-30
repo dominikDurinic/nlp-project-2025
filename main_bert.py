@@ -1,18 +1,16 @@
-from bert_classifier.bertProduction import label_jsonl
+from bert_classifier.bertProduction import label_jsonl_with_metrics
 
+# labeling clanaka
 
-## * POKRETAANJE LABELINGA ZA NOVE PODATKE * ##
-
-
-# LABELING POSTOVA
-label_jsonl(
-    "data/clean/articles/clean_vecernjihr_articles.jsonl",
-    "data/result/labeled_vecernjihr_articles.jsonl"
+label_jsonl_with_metrics(
+    "data/result/articles/all_articles_to_predict.jsonl",
+    "data/result/articles/results_labeled_articles.jsonl"
 )
 
 
-# LABELING KOMENTARA
-label_jsonl(
-    "data/clean/comments/clean_vecernjihr_comments.jsonl",
-    "data/result/labeled_vecernjihr_comments.jsonl"
+# labeling komentara
+label_jsonl_with_metrics(
+    "data/result/comments/all_comments_to_predict.jsonl",
+    "data/result/comments/results_labeled_comments.jsonl"
 )
+

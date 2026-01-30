@@ -1,7 +1,7 @@
 from helper.cleaning import clean_jsonl
 
 ## -------- Cleaning text ---------
-'''
+
 # cleaning articles - 24sata
 clean_jsonl(
     "data/original/articles/24sata_articles.jsonl",
@@ -108,10 +108,4 @@ clean_jsonl(
 clean_jsonl(
     "data/original/posts/comments/reddit_comments_hreddit.jsonl",
     "data/clean/posts/comments/clean_reddit_comments_hreddit.jsonl"
-)
-'''
-
-clean_jsonl(
-    "data/train/new.jsonl",
-    "data/train/clean_new.jsonl"
 )

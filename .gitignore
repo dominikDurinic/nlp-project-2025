@@ -47,6 +47,5 @@ Thumbs.db
 *.sqlite
 
 # Machine learning models
-data/model/bert_nostalgia_classifier/
-bert_nostalgia_model/
-bertic_nostalgia_model
+data/
+crosloengual_nostalgia_model/

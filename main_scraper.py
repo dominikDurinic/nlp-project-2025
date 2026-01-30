@@ -1,29 +1,59 @@
-'''
+from helper.saveToJsonL import  save_to_jsonl
+from helper.filter import exclude_sport
+from helper.createDriver import create_driver
 import pandas as pd
 from dnevnohr.dnevno_web_scraper import scrape_portal_dnevno
-from helper.createDriver import create_driver
+
+
 from indexhr.getAllComments import get_all_comments
 from indexhr.index_web_scraper import scrape_portal
+
+
 from jutarnjihr.jutarnji_web_scraper import scrape_portal_jutarnji
+
 from narodhr.narodhr_web_scraper import scrape_portal_narod
 from narodhr.getAllComments import get_comments
+
+
 from dva_cetiri_sata.dva_cetiri_sata_web_scraper import  scrape_portal_24sata
 from dva_cetiri_sata.getComments import  get_comments_24sata
-from helper.filter import exclude_sport
-'''
+
+
 from reddit.getComments import get_reddit_comments
-from helper.saveToJsonL import append_to_jsonl, save_to_jsonl
-'''
 from reddit.reddit_web_scraper import scrape_portal_reddit
-from helper.saveToJsonL import append_to_jsonl, save_to_jsonl
+
 from vecernjihr.getComments import get_vecernji_comments
 from vecernjihr.vecernji_web_scraper import scrape_portal_vecernji
-'''
-'''
+
+import pandas as pd
+from dnevnohr.dnevno_web_scraper import scrape_portal_dnevno
+
+
+from indexhr.getAllComments import get_all_comments
+from indexhr.index_web_scraper import scrape_portal
+
+
+from jutarnjihr.jutarnji_web_scraper import scrape_portal_jutarnji
+
+from narodhr.narodhr_web_scraper import scrape_portal_narod
+from narodhr.getAllComments import get_comments
+
+
+from dva_cetiri_sata.dva_cetiri_sata_web_scraper import  scrape_portal_24sata
+from dva_cetiri_sata.getComments import  get_comments_24sata
+
+
+from reddit.getComments import get_reddit_comments
+from reddit.reddit_web_scraper import scrape_portal_reddit
+
+from vecernjihr.getComments import get_vecernji_comments
+from vecernjihr.vecernji_web_scraper import scrape_portal_vecernji
+
+
 ## ------- INDEX.HR -------
 
 articles = []
-articles = scrape_portal("jugoslavija", max_results=100)
+articles = scrape_portal("jugoslavija", max_results=400)
 
 articles = exclude_sport(articles)
 
@@ -42,10 +72,11 @@ for article in articles:
 save_to_jsonl(comments,"data/original/comments/indexhr_comments.jsonl")
 
 
+
 ## ------- NAROD.HR -------
 
 articles = []
-articles = scrape_portal_narod("jugoslavija", 10)
+articles = scrape_portal_narod("jugoslavija", 20)
 
 save_to_jsonl(articles, "data/original/articles/narodhr_articles.jsonl")
 
@@ -61,6 +92,7 @@ for article in articles:
 save_to_jsonl(comments, "data/original/comments/narodhr_comments.jsonl")
 
 
+
 ## ------- DNEVNO.HR -------
 
 articles = []
@@ -74,7 +106,7 @@ save_to_jsonl(articles, "data/original/articles/dnevnohr_articles.jsonl")
 
 ## ------- 24SATA.HR -------
 
-articles = scrape_portal_24sata("jugoslavija", scroll_times=1)
+articles = scrape_portal_24sata("jugoslavija", scroll_times=20)
 articles = exclude_sport(articles)
 
 save_to_jsonl(articles, "data/original/articles/24sata_articles.jsonl")
@@ -107,7 +139,7 @@ save_to_jsonl(articles, "data/original/articles/jutarnjihr_articles.jsonl")
 
 ## ------- VECERNJI.HR -------
 
-articles = scrape_portal_vecernji("jugoslavija", 10)
+articles = scrape_portal_vecernji("jugoslavija", 40)
 articles = exclude_sport(articles)
 
 save_to_jsonl(articles, "data/original/articles/vecernjihr_articles.jsonl")
@@ -126,9 +158,9 @@ save_to_jsonl(comments, "data/original/comments/vecernjihr_comments.jsonl")
 ## ------- REDDIT.COM -------
 
 # subreddits: Croatia, AskCroatia, hreddit    
-#posts = scrape_portal_reddit("jugoslavija", max_pages=3, sub="Croatia")
+#posts = scrape_portal_reddit("jugoslavija", max_pages=4, sub="Croatia")
 
-#posts = scrape_portal_reddit("jugoslavija", max_pages=3, sub="AskCroatia")
+#posts = scrape_portal_reddit("jugoslavija", max_pages=4, sub="AskCroatia")
 #posts = scrape_portal_reddit("komunjare", max_pages=3, sub="AskCroatia")
 #posts = scrape_portal_reddit("juga", max_pages=3, sub="AskCroatia")
 
@@ -151,7 +183,7 @@ for post in posts:
         continue
 
     comments.extend(get_reddit_comments(url, post_id))
-'''
+
 
 posts = [{"url":"https://www.reddit.com/r/croatia/comments/1fdr6ej/jugonostalgija_u_hrvatskoj/","id":"1fdr6ej"},
          {"url":"https://www.reddit.com/r/croatia/comments/195v3rf/evo_jedan_podatak_za_pokazati_jugonostalgi%C4%8Darima/","id":"195v3rf"},
@@ -170,9 +202,10 @@ for post in posts:
     comments.extend(get_reddit_comments(url, post_id))
 
 #save_to_jsonl(comments, "data/original/posts/comments/reddit_comments_Croatia.jsonl")
-#save_to_jsonl(comments, "data/original/posts/comments/reddit_comments_AskCroatia.jsonl")
+save_to_jsonl(comments, "data/original/posts/comments/reddit_comments_AskCroatia.jsonl")
 #save_to_jsonl(comments, "data/original/posts/comments/reddit_comments_hreddit.jsonl")
 #append_to_jsonl("data/original/posts/comments/reddit_comments_Croatia.jsonl", comments)
 #append_to_jsonl("data/original/posts/comments/reddit_comments_AskCroatia.jsonl", comments)
 #append_to_jsonl("data/original/posts/comments/reddit_comments_hreddit.jsonl", comments)
-append_to_jsonl("data/original/posts/comments/reddit_comments_Croatia.jsonl", comments)
+#append_to_jsonl("data/original/posts/comments/reddit_comments_Croatia.jsonl", comments)
+

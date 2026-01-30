@@ -1,7 +1,7 @@
 import time
 import json
 import numpy as np
-from bert_classifier.loadLabeledJSONL import load_jsonl
+from loadLabeledJSONL import load_jsonl
 from datasets import Dataset
 from sklearn.metrics import confusion_matrix, classification_report
 from transformers import (
@@ -12,15 +12,15 @@ from transformers import (
     TrainerCallback
 )
 
-dataset = load_jsonl("./data/train/labeled_comments_shuffled.jsonl")
+dataset = load_jsonl("./data/train/jugoslavija_final_cleaned_shuffled.jsonl")
 
 
 # razdvoji na train i test skupove
 dataset = dataset.train_test_split(test_size=0.2)
 
 
-# TOKENIZACIJA -  BERTic tokenize
-model_name = "classla/bcms-bertic"#"EMBEDDIA/crosloengual-bert"
+# TOKENIZACIJA
+model_name = "EMBEDDIA/crosloengual-bert"   #"./data/model/bert_nostalgia_classifier/crosloengual" za dotreniranje
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 def tokenize(batch):
@@ -51,41 +51,25 @@ class TimeCallback(TrainerCallback):
         print(f"\nEpoch {int(state.epoch)} trajanje: {duration:.2f} seconds\n")
 
 
-# PARAMS za trening
-'''
-args = TrainingArguments(
-    output_dir="bert_nostalgia_model",
-    evaluation_strategy="epoch",
-    save_strategy="epoch",
-    learning_rate=2e-5,
-    per_device_train_batch_size=8,
-    per_device_eval_batch_size=8,
-    num_train_epochs=3,
-    weight_decay=0.01,
-    logging_strategy="steps",
-    logging_steps=50,
-    logging_dir="./logs",
-    load_best_model_at_end=True,
-    report_to="none"
-)
-'''
-args = TrainingArguments(
-    output_dir="bertic_nostalgia_model",
-    evaluation_strategy="epoch",
-    save_strategy="epoch",
-    learning_rate=2e-5,                 # BERTić voli 2e-5 ili 1.5e-5
-    per_device_train_batch_size=16,     # stabilnije od 8
-    per_device_eval_batch_size=16,
-    num_train_epochs=4,                 # BERTić bolje konvergira s 4 epohe
-    weight_decay=0.01,
-    warmup_ratio=0.1,                   # VAŽNO za BERTić
-    logging_strategy="steps",
-    logging_steps=50,
-    logging_dir="./logs",
-    load_best_model_at_end=True,
-    report_to="none"
-)
+## PARAMS za trening
+# CroSloEngual BERT
 
+args = TrainingArguments(
+    output_dir="crosloengual_nostalgia_model",
+    evaluation_strategy="epoch",
+    save_strategy="epoch",
+    learning_rate=3e-5,                 
+    per_device_train_batch_size=8,      
+    per_device_eval_batch_size=8,
+    num_train_epochs=3,                 
+    weight_decay=0.01,
+    warmup_ratio=0.06,                  
+    logging_strategy="steps",
+    logging_steps=50,
+    logging_dir="./logs_croslo",
+    load_best_model_at_end=True,
+    report_to="none"
+)
 
 # TRENER
 trainer = Trainer(
@@ -110,7 +94,7 @@ print(f"\nUKUPNO VRIJEME TRENIRANJA: {end - start:.2f} seconds\n")
 metrics = trainer.evaluate()
 print("\nEvaluacija metrika:\n", metrics)
 
-with open("./data/model/bert_nostalgia_classifier/bertic/training_metrics.json", "w") as f:
+with open("./data/model/bert_nostalgia_classifier/crosloengual/training_metrics.json", "w") as f:
     json.dump(metrics, f, indent=2)
 
 
@@ -125,7 +109,7 @@ print(confusion_matrix(y_true, y_pred))
 print("\nCLASSIFICATION REPORT:")
 print(classification_report(y_true, y_pred))
 
-with open("./data/model/bert_nostalgia_classifier/bertic/classification_report.txt", "w") as f:
+with open("./data/model/bert_nostalgia_classifier/crosloengual/classification_report.txt", "w") as f:
     f.write(classification_report(y_true, y_pred))
 
 
@@ -141,7 +125,7 @@ for i, (true, pred) in enumerate(zip(y_true, y_pred)):
             "predicted_label": int(pred)
         })
 
-with open("./data/model/bert_nostalgia_classifier/bertic/wrong_predictions.jsonl", "w", encoding="utf-8") as f:
+with open("./data/model/bert_nostalgia_classifier/crosloengual/wrong_predictions.jsonl", "w", encoding="utf-8") as f:
     for w in wrong:
         f.write(json.dumps(w, ensure_ascii=False) + "\n")
 
@@ -149,7 +133,6 @@ print(f"\nPogresne predikcije spremljene: {len(wrong)}\n")
 
 
 # spremanje model
-trainer.save_model("./data/model/bert_nostalgia_classifier/bertic")
-tokenizer.save_pretrained("./data/model/bert_nostalgia_classifier/bertic")
-
+trainer.save_model("./data/model/bert_nostalgia_classifier/crosloengual")
+tokenizer.save_pretrained("./data/model/bert_nostalgia_classifier/crosloengual")
 print("\nModel uspjesno spremljen.\n")

@@ -1,18 +1,17 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-# -----------------------------
-# 1) UČITAJ MODEL
-# -----------------------------
-model_path = "../data/model/bert_nostalgia_classifier"
+
+# učitavanje modela i tokenizatora
+
+model_path = "./data/model/bert_nostalgia_classifier/crosloengual"
 
 tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True)
 model = AutoModelForSequenceClassification.from_pretrained(model_path, local_files_only=True)
 model.eval()
 
-# -----------------------------
-# 2) FUNKCIJA ZA PREDIKCIJU
-# -----------------------------
+#funkcija za predikciju
+
 def predict_label(text):
     inputs = tokenizer(text, return_tensors="pt", truncation=True, padding=True)
     with torch.no_grad():
