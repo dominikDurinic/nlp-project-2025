@@ -1,9 +1,9 @@
-# NLP Projekt 2025
+# NLP Projekt 2025-26
 
 <img src="public/main.png" width="500px"/>
 
 ## Naslov projekta
-**Primjena metoda obrade prirodnog jezika u analizi teme: Jugoslavija: nostalgija ili kritika**
+**Primjena LLM BERT modela u analizi teme: Jugoslavija: nostalgija ili kritika**
 
 ## Glavno pitanje
 Prevladava li osjećaj nostalgije ili kritičnosti u diskusijama o Jugoslaviji među građanima i medijima Republike Hrvatske? 
@@ -17,12 +17,10 @@ Dodatna pitanja vezana uz tematiku:
 - Postoje li razlike u tonu i stilu komentiranja korisnika društvenih mreža? 
 - Kako se diskusije razlikuju između medija koji su više lijevo i onih koji su više desno 
 orijentirani? (postoje li razlike u tonu i stilu oblikovanja članaka) 
-- Koje teme (ključne riječi) se najčešće spominju uz nostalgiju? 
-- Koje teme (ključne riječi) se najčešće spominju uz kritičnost?
 
 ## Ostale informacije
 Izradio: Dominik Đurinić
 
-Projekt izrađen u sklopu predmeta **Obrada prirodnog jezika** na **Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu**.
+Projekt je izrađen u sklopu predmeta **Obrada prirodnog jezika** na **Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu**.
 
 Zagreb, siječanj 2026.
